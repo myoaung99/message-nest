@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 
 export interface Message {
@@ -5,12 +6,13 @@ export interface Message {
   content: string;
 }
 
+@Injectable()
 export class MessageRepository {
   private fileName = 'messages.json';
 
-  async findOne(id: string): Promise<Message | string> {
+  async findOne(id: string): Promise<Message> {
     const messages = await this.readMessages();
-    return messages.find((message) => message.id === id) || 'not found';
+    return messages.find((message) => message.id === id);
   }
 
   async findAll() {
